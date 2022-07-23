@@ -40,6 +40,8 @@ console.log(c);
 let notSure: any = 4;
 notSure = 'test';
 notSure = true;
+// 声明一个包含不同类型数据的数组
+const list4: Array<any> = ['1', 2, true];
 
 // 8. void：没有任何类型，即函数没有返回值
 function warnUser(): void {
@@ -52,6 +54,7 @@ warnUser();
 // 分别是js中null和undefined的类型，和void相似，用处不是很大
 // 默认情况下null和undefined是所有类型的子类型。 就是说你可以把 null和undefined赋值给number类型的变量。
 // 然而，当你指定了--strictNullChecks标记，null和undefined只能赋值给void和它们各自（一般都是开启严格模式的）
+const testNull: number = null;
 
 // 10. Never：表示永不存在值的类型
 // never类型是任何类型的子类型，也可以赋值给任何类型
@@ -71,13 +74,17 @@ function infiniteLoop(): never {
 }
 
 // 11. Object：表示非原始类型（除number、string、boolean、symbol、null或undefined之外的类型）
-// declare function create(o: object | null): void;
-// create({ prop: 0 }); // OK
-// create(42); // Error
+// 使用object类型，就可以更好的表示像Object.create这样的API，例如：
+declare function create(o: object | null): void;
+create({ prop: 0 }); // OK
+create(42); // Error
+create(null);
 
-// 12. 类型断言：告诉编译器我知道是什么类型
+// 12. 类型断言：告诉编译器我知道是什么类型（在使用一个不知道类型的变量时，能确定并告诉编译器是啥）
+// 没有运行时的影响，只是在编译阶段起作用
+// 类型断言有两种方法：
 // 12.1 尖括号
-let someValue: any = 'test';
+let someValue: any = 'This is a string';
 let strLen: number = (<string>someValue).length;
 // 12.2 as语法（jsx里只支持as语法）
 let strLen2: number = (someValue as string).length;

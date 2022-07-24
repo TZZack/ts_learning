@@ -1,6 +1,7 @@
+"use strict";
 // 解构
-var o = {
+const o = {
     a: 1,
     b: 'asadf'
 };
-var a = o.a, b = o.b;
+let { a, b } = o;

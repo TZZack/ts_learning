@@ -88,3 +88,43 @@ let mySearch1: SearchFunc = function (str1, keyword) {
 }
 
 // 7. 可索引的类型
+// ts支持两种索引签名：字符串和数字，
+// 7.1 普通的demo，这个接口具有索引签名
+interface StringArray {
+    [index: number]: string;
+}
+let myArray: StringArray;
+myArray = ['zzz', 'ack'];
+let myStr: string = myArray[0];
+console.log('myStr', myStr);
+// 7.2 可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型(因为js会把数字转为字符串去索引)，索引两者需要保持一致
+interface Animal {
+    name: string;
+}
+interface Dog extends Animal {
+    breed: string;
+}
+// Error
+interface NotOkay {
+    [key: number]: Animal;
+    [key: string]: Dog;
+}
+// OK
+interface Okay {
+    [key: number]: Dog;
+    [key: string]: Animal;
+}
+// 7.3 字符串索引签名能够很好描述dictionary模式，并且它们也会确保所有属性与其返回值类型相匹配
+interface NumberDictionary {
+    [index: string]: number;
+    length: number;    // 可以，length是number类型
+    name: string       // 错误，name的返回值类型与索引类型返回值的类型不匹配
+}
+// 7.4 将索引签名设置为只读，防止给索引赋值
+interface ReadonlyStringArray {
+    readonly [index: number]: string
+}
+let myArr74: ReadonlyStringArray = ['a,', 'b'];
+myArr74[1] = '123';
+
+// 6. 类类型
